@@ -1,6 +1,6 @@
 import CoreLocation
 
-
+//i'm locationDeveloper
 
 
 class LocationManager: NSObject, CLLocationManagerDelegate {
