@@ -45,8 +45,7 @@ extension ViewController {
 func setWeatherUI(weather: OpenMeteoResponse) {
     print("setWeatherUI")
     
-    temperatureLabel.text = String(weather.current_weather.temperature) + "°C"
-    temperatureLabel.font = UIFont.systemFont(ofSize: 60)
+w    temperatureLabel.font = UIFont.systemFont(ofSize: 60)
     temperatureLabel.textColor = .black
     temperatureLabel.textAlignment = .center
     
