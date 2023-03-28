@@ -3,6 +3,7 @@ import CoreLocation
 
 
 class ViewController: UIViewController, UpdateWeatherUIProtocol {
+
     
     let locationManager = LocationManager()
     let weatherAPI = WeatherAPI()
@@ -11,18 +12,23 @@ class ViewController: UIViewController, UpdateWeatherUIProtocol {
     var lastUpdateTime = Date().timeIntervalSince1970
     
     let location = CLLocation()
-    
+
     let temperatureLabel = UILabel()
     let windSpeedLabel = UILabel()
-    let currentTimeLabel = UILabel()
-    let weatherDescriptionLabel = UILabel()
+//    let currentTimeLabel = UILabel()
+//    let weatherDescriptionLabel = UILabel()
+//
+//    let weatherTimeScrollView = UIScrollView()
+//    var weatherTimeLabels: [UILabel] = []
+//
+//    let locationsButton = UIButton()
+//
+//    let backgroundColour = UIColor.white
     
-    let weatherTimeScrollView = UIScrollView()
-    var weatherTimeLabels: [UILabel] = []
     
-    let locationsButton = UIButton()
     
-    let backgroundColour = UIColor.white
+    var views: [UIView] = []
+    
     
     
     override func viewDidLoad() {
@@ -30,12 +36,26 @@ class ViewController: UIViewController, UpdateWeatherUIProtocol {
         
         self.view.backgroundColor = backgroundColour
         
-        setMainUI()
+        
         
 //        locationManager.updateLocation()
         
         
+        let temperatureLabel = UILabel()
+        let windSpeedLabel = UILabel()
         
+        views = [temperatureLabel, windSpeedLabel]
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        setMainUI()
         weatherAPI.delegate = self
         
         
@@ -43,6 +63,8 @@ class ViewController: UIViewController, UpdateWeatherUIProtocol {
         
         
         
+        
+
         
         
         
@@ -96,10 +118,10 @@ extension ViewController {
         
         print(Double(Date().timeIntervalSince1970 - lastUpdateTime) > 60)
         
-        if Double(Date().timeIntervalSince1970 - lastUpdateTime) > 6 || temperatureLabel.text == nil {
-            lastUpdateTime = Date().timeIntervalSince1970
-            weatherAPI.makeWeatherAPIRequest(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-        }
+//        if Double(Date().timeIntervalSince1970 - lastUpdateTime) > 6 || temperatureLabel.text == nil {
+//            lastUpdateTime = Date().timeIntervalSince1970
+//            weatherAPI.makeWeatherAPIRequest(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+//        }
         
     }
     

@@ -20,18 +20,6 @@ struct Forecast: Codable {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 class WeatherAPI: NSObject, URLSessionTaskDelegate {
     
     var isPlaced = false
@@ -58,7 +46,7 @@ class WeatherAPI: NSObject, URLSessionTaskDelegate {
                     
                     self.isPlaced = true
                 } else {
-                    self.delegate?.updateMainWeatherUI(weather: weather)
+//                    self.delegate?.updateMainWeatherUI(weather: weather)
                 }
                 
                 
