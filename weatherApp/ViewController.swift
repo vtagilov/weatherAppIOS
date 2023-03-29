@@ -8,45 +8,22 @@ class ViewController: UIViewController, UpdateWeatherUIProtocol {
     let locationManager = LocationManager()
     let weatherAPI = WeatherAPI()
     
-    
     var lastUpdateTime = Date().timeIntervalSince1970
     
     let location = CLLocation()
 
-    let temperatureLabel = UILabel()
-    let windSpeedLabel = UILabel()
-//    let currentTimeLabel = UILabel()
-//    let weatherDescriptionLabel = UILabel()
-//
-//    let weatherTimeScrollView = UIScrollView()
-//    var weatherTimeLabels: [UILabel] = []
-//
-//    let locationsButton = UIButton()
-//
-//    let backgroundColour = UIColor.white
+    let backgroundColour = UIColor.white
     
-    
-    
-    var views: [UIView] = []
-    
-    
+    let views = VCViews()
+    let constarints = VCConstraints()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.backgroundColor = backgroundColour
         
-        
-        
 //        locationManager.updateLocation()
-        
-        
-        let temperatureLabel = UILabel()
-        let windSpeedLabel = UILabel()
-        
-        views = [temperatureLabel, windSpeedLabel]
-        
-        
+                
         
         
         
@@ -62,13 +39,13 @@ class ViewController: UIViewController, UpdateWeatherUIProtocol {
         weatherAPI.makeWeatherAPIRequest(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
         
         
-        
-        
-
-        
-        
-        
     }
+    
+    
+
+    
+    
+    
     
     
 }
