@@ -4,15 +4,14 @@ import CoreLocation
 
 class ViewController: UIViewController, UpdateWeatherUIProtocol {
 
-    
     let locationManager = LocationManager()
     let weatherAPI = WeatherAPI()
     
     var lastUpdateTime = Date().timeIntervalSince1970
-    
-    let location = CLLocation()
 
     let backgroundColour = UIColor.white
+    
+    let notCenter = NotificationCenter()
     
     let views = VCViews()
     let constarints = VCConstraints()
@@ -21,25 +20,24 @@ class ViewController: UIViewController, UpdateWeatherUIProtocol {
         super.viewDidLoad()
         
         self.view.backgroundColor = backgroundColour
-        
-//        locationManager.updateLocation()
-                
+        weatherAPI.delegate = self
         
         
+        locationManager.updateLocation()
         
-        
+        notCenter.addObserver(<#T##observer: Any##Any#>, selector: <#T##Selector#>, name: <#T##NSNotification.Name?#>, object: <#T##Any?#>)
         
         
         
         
         setMainUI()
-        weatherAPI.delegate = self
         
         
-        weatherAPI.makeWeatherAPIRequest(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+//        weatherAPI.makeWeatherAPIRequest(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
         
         
     }
+    
     
     
 
@@ -57,6 +55,7 @@ extension ViewController {
     
     fileprivate func setMainUI() {
         setUpdateButton()
+        
     }
     
     

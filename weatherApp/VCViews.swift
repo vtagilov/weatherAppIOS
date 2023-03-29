@@ -158,6 +158,24 @@ class VCViews {
     
     
     func updateData(weather: OpenMeteoResponse) {
+        temperatureLabel.text = String(weather.current_weather.temperature) + "°C"
+        
+        if temperatureLabel.text!.first != "-" {
+            temperatureLabel.text = "+" + temperatureLabel.text!
+        }
+        
+        
+        windSpeedLabel.text = String(weather.current_weather.windspeed) + " м/с"
+        
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        let timeString = formatter.string(from: Date())
+        currentTimeLabel.text = "на " + timeString
+        
+        weatherDescriptionLabel.text = weatherCodes[weather.current_weather.weathercode] ?? ""
+        
+        
         
     }
     

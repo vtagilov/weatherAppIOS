@@ -12,6 +12,19 @@ extension ViewController {
         constarints.activateConstraints(mainView: &self.view, views: views)
         
     }
+    
+    
+    
+    func updateWeatherUI(weather: OpenMeteoResponse) {
+        print("updateWeatherUI")
+        
+        views.configure(weather: weather)
+        
+        constarints.activateConstraints(mainView: &self.view, views: views)
+        
+    }
+    
+    
 }
 
 

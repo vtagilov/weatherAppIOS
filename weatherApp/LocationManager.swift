@@ -1,5 +1,5 @@
 import CoreLocation
-
+ 
 
 
 class LocationManager: NSObject, CLLocationManagerDelegate {
@@ -31,7 +31,11 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         if let location = locations.last {
             
             self.location = location
+            
             print("Location updated: \(location)")
+            
+            
+            
         }
         locationManager.stopUpdatingLocation()
     }
