@@ -2,30 +2,7 @@ import Foundation
 import UIKit
 
 
-extension ViewController {
-    
-    func setWeatherUI(weather: OpenMeteoResponse) {
-        print("setWeatherUI")
-        
-        views.configure(weather: weather)
-        
-        constarints.activateConstraints(mainView: &self.view, views: views)
-        
-    }
-    
-    
-    
-    func updateWeatherUI(weather: OpenMeteoResponse) {
-        print("updateWeatherUI")
-        
-        views.configure(weather: weather)
-        
-        constarints.activateConstraints(mainView: &self.view, views: views)
-        
-    }
-    
-    
-}
+
 
 
 

@@ -38,15 +38,18 @@ class WeatherAPI: NSObject, URLSessionTaskDelegate {
             guard let data = data else { return }
             print(data)
             guard let weather = self.parseOpenMeteoAPIResponse(data: data) else { return }
+            print(weather.hourly.temperature_2m.count)
             
             DispatchQueue.main.async {
+                
+                
                 
                 if self.isPlaced == false {
                     self.delegate?.setWeatherUI(weather: weather)
                     
                     self.isPlaced = true
                 } else {
-//                    self.delegate?.updateMainWeatherUI(weather: weather)
+                    self.delegate?.updateWeatherUI(weather: weather)
                 }
                 
                 

@@ -34,6 +34,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             
             print("Location updated: \(location)")
             
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "avaliableLocation"), object: self)
             
             
         }

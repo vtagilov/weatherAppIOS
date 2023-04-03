@@ -3,44 +3,44 @@ import CoreLocation
 
 
 class ViewController: UIViewController, UpdateWeatherUIProtocol {
-
-    let locationManager = LocationManager()
-    let weatherAPI = WeatherAPI()
     
     var lastUpdateTime = Date().timeIntervalSince1970
 
     let backgroundColour = UIColor.white
     
-    let notCenter = NotificationCenter()
-    
+    let locationManager = LocationManager()
+    let weatherAPI = WeatherAPI()
     let views = VCViews()
     let constarints = VCConstraints()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.view.backgroundColor = backgroundColour
         weatherAPI.delegate = self
         
         
+        setMainUI()
+        setLastWeather()
+        
         locationManager.updateLocation()
         
-        notCenter.addObserver(<#T##observer: Any##Any#>, selector: <#T##Selector#>, name: <#T##NSNotification.Name?#>, object: <#T##Any?#>)
+        NotificationCenter.default.addObserver(self, selector: #selector(avaliableLocation), name: NSNotification.Name("avaliableLocation"), object: nil)
         
         
         
         
-        setMainUI()
         
-        
-//        weatherAPI.makeWeatherAPIRequest(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
         
         
     }
     
     
     
-
+    @objc func avaliableLocation() {
+        weatherAPI.makeWeatherAPIRequest(latitude: locationManager.location!.coordinate.latitude, longitude: locationManager.location!.coordinate.longitude)
+        
+        
+    }
     
     
     
@@ -67,12 +67,8 @@ extension ViewController {
         
         
         updateWeatherButton.image = UIImage(systemName: "arrow.triangle.2.circlepath")
-        //        view.addSubview(updateWeatherButton)
         
         self.navigationItem.rightBarButtonItem = updateWeatherButton
-        
-        //        updateWeatherButton.addTarget(self, action: #selector(updateWeatherButtonFunc), for: .touchUpInside)
-        
         
         
     }
@@ -83,24 +79,24 @@ extension ViewController {
     
     @objc func updateWeatherButtonFunc(_ sender: UIButton) {
         
-        let date = Date()
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm:ss"
-        let timeString = formatter.string(from: date)
-        print("Current Time: \(timeString)")
-        
-        //            updateLocation()
-        
-        
-        print(Double(Date().timeIntervalSince1970 - lastUpdateTime) > 60)
-        
-//        if Double(Date().timeIntervalSince1970 - lastUpdateTime) > 6 || temperatureLabel.text == nil {
-//            lastUpdateTime = Date().timeIntervalSince1970
-//            weatherAPI.makeWeatherAPIRequest(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-//        }
+        if Double(Date().timeIntervalSince1970 - lastUpdateTime) > 60 {
+            lastUpdateTime = Date().timeIntervalSince1970
+            locationManager.updateLocation()
+        } else {
+            print("aсtual yet")
+        }
         
     }
     
+    
+    func setLastWeather() {
+        let weather = readLastWeather()
+        if weather.hourly.temperature_2m.count != 0 {
+            setWeatherUI(weather: weather)
+        } else {
+            return
+        }
+    }
     
 }
 

@@ -1,6 +1,91 @@
 import Foundation
 import UIKit
 
+
+
+extension ViewController {
+    
+    
+    func setWeatherUI(weather: OpenMeteoResponse) {
+        print("setWeatherUI")
+        
+        views.configure(weather: weather)
+        
+        constarints.activateConstraints(mainView: &self.view, views: views)
+        
+        saveLastWeather(weather: weather)
+    }
+    
+    
+    func updateWeatherUI(weather: OpenMeteoResponse) {
+        print("updateWeatherUI")
+        
+        views.updateData(weather: weather)
+        
+        saveLastWeather(weather: weather)
+    }
+    
+    
+    
+    
+    func saveLastWeather(weather: OpenMeteoResponse) {
+        UserDefaults.standard.set(weather.current_weather.temperature, forKey: "lastWeather.currentWeather.temperature")
+        UserDefaults.standard.set(weather.current_weather.weathercode, forKey: "lastWeather.currentWeather.weatherCode")
+        UserDefaults.standard.set(weather.current_weather.windspeed, forKey: "lastWeather.currentWeather.windSpeed")
+        
+        UserDefaults.standard.set(Date().timeIntervalSince1970, forKey: "lastWeather.lastTimeUpdate")
+        
+        for i in 0..<weather.hourly.temperature_2m.count - 1 {
+            UserDefaults.standard.set(weather.hourly.temperature_2m[i], forKey: "lastWeather.hourly.temperature_2m.\(i)")
+            
+        }
+        
+        for i in 0..<weather.hourly.time.count - 1 {
+            UserDefaults.standard.set(weather.hourly.time[i], forKey: "lastWeather.hourly.time.\(i)")
+            
+        }
+    }
+    
+    func readLastWeather() -> OpenMeteoResponse {
+        
+        let currentWeather = Weather(temperature: UserDefaults.standard.double(forKey: "lastWeather.currentWeather.temperature"),
+            windspeed: UserDefaults.standard.double(forKey: "lastWeather.currentWeather.windSpeed"),
+            weathercode: UserDefaults.standard.integer(forKey: "lastWeather.currentWeather.weatherCode"))
+        
+        
+        var time = [String]()
+        var temperatute_2m = [Double]()
+        
+        var i = 0
+        var oneTime: String? = UserDefaults.standard.string(forKey: "lastWeather.hourly.time.\(i)")
+        var oneTemp: Double? = UserDefaults.standard.double(forKey: "lastWeather.hourly.temperature_2m.\(i)")
+        
+        while oneTime != nil {
+            
+            time.append(oneTime!)
+            temperatute_2m.append(oneTemp!)
+            i += 1
+            
+            oneTime = UserDefaults.standard.string(forKey: "lastWeather.hourly.time.\(i)")
+            oneTemp = UserDefaults.standard.double(forKey: "lastWeather.hourly.temperature_2m.\(i)")
+            
+        }
+        
+        let hourly = Forecast(time: time, temperature_2m: temperatute_2m)
+        
+        
+        return OpenMeteoResponse(current_weather: currentWeather, hourly: hourly)
+    }
+    
+}
+
+
+
+
+
+
+
+
 class VCViews {
     
     var temperatureLabel = UILabel()
@@ -19,10 +104,7 @@ class VCViews {
     
     
     
-    
-    func setTemperatureLabel() {
-        
-    }
+
     func configure(weather: OpenMeteoResponse) {
         
         
@@ -149,7 +231,7 @@ class VCViews {
             
         }
         
-
+        
         
         
     }
