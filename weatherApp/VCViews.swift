@@ -18,7 +18,6 @@ extension ViewController {
     
     
     func updateWeatherUI(weather: OpenMeteoResponse) {
-        print("updateWeatherUI")
         
         views.updateData(weather: weather)
         
@@ -45,6 +44,7 @@ extension ViewController {
             
         }
     }
+    
     
     func readLastWeather() -> OpenMeteoResponse {
         
@@ -231,9 +231,7 @@ class VCViews {
             
         }
         
-        
-        
-        
+
     }
     
     

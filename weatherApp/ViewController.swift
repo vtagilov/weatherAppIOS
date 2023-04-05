@@ -18,17 +18,12 @@ class ViewController: UIViewController, UpdateWeatherUIProtocol {
         self.view.backgroundColor = backgroundColour
         weatherAPI.delegate = self
         
-        
         setMainUI()
         setLastWeather()
         
         locationManager.updateLocation()
         
         NotificationCenter.default.addObserver(self, selector: #selector(avaliableLocation), name: NSNotification.Name("avaliableLocation"), object: nil)
-        
-        
-        
-        
         
         
         
@@ -41,9 +36,6 @@ class ViewController: UIViewController, UpdateWeatherUIProtocol {
         
         
     }
-    
-    
-    
     
     
 }
@@ -71,11 +63,26 @@ extension ViewController {
         self.navigationItem.rightBarButtonItem = updateWeatherButton
         
         
+        
+        let locationListButton = UIBarButtonItem(barButtonSystemItem: .bookmarks, target: self, action: #selector(selectLocationButtonFunc))
+        
+        
+        updateWeatherButton.image = UIImage(systemName: "arrow.triangle.2.circlepath")
+        
+        self.navigationItem.leftBarButtonItem = locationListButton
+        
+        
     }
     
     
     
     //MARK: ButtonsTargets
+    
+    @objc func selectLocationButtonFunc(_ sender: UIButton) {
+        
+        navigationController?.viewControllers.append(LocationSelectorVC())
+    }
+    
     
     @objc func updateWeatherButtonFunc(_ sender: UIButton) {
         
@@ -92,7 +99,9 @@ extension ViewController {
     func setLastWeather() {
         let weather = readLastWeather()
         if weather.hourly.temperature_2m.count != 0 {
+            print("setLastWeather -> setWeatherUI")
             setWeatherUI(weather: weather)
+            weatherAPI.isPlaced = true
         } else {
             return
         }

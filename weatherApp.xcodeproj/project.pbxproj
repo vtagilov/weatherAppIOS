@@ -19,6 +19,11 @@
 		E724214729CB4A51006BD28E /* Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = E724214629CB4A51006BD28E /* Constraints.swift */; };
 		E753931029CCB7BC00EBEA69 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = E753930F29CCB7BC00EBEA69 /* Protocols.swift */; };
 		E753931229D3468900EBEA69 /* VCViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = E753931129D3468900EBEA69 /* VCViews.swift */; };
+		E7C7329629DB336200450BD4 /* LocationSelectorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C7329529DB336200450BD4 /* LocationSelectorVC.swift */; };
+		E7C732A329DB378300450BD4 /* LocationSelectorConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C732A229DB378300450BD4 /* LocationSelectorConstraints.swift */; };
+		E7C732A529DB379900450BD4 /* LocationSelectorViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C732A429DB379900450BD4 /* LocationSelectorViews.swift */; };
+		E7D44B2B29DD86A600FFBB1D /* LocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D44B2A29DD86A600FFBB1D /* LocationTableViewCell.swift */; };
+		E7D44B2D29DDBB2C00FFBB1D /* GeocoderAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7D44B2C29DDBB2C00FFBB1D /* GeocoderAPI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -49,6 +54,11 @@
 		E724214629CB4A51006BD28E /* Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constraints.swift; sourceTree = "<group>"; };
 		E753930F29CCB7BC00EBEA69 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		E753931129D3468900EBEA69 /* VCViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCViews.swift; sourceTree = "<group>"; };
+		E7C7329529DB336200450BD4 /* LocationSelectorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSelectorVC.swift; sourceTree = "<group>"; };
+		E7C732A229DB378300450BD4 /* LocationSelectorConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSelectorConstraints.swift; sourceTree = "<group>"; };
+		E7C732A429DB379900450BD4 /* LocationSelectorViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSelectorViews.swift; sourceTree = "<group>"; };
+		E7D44B2A29DD86A600FFBB1D /* LocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTableViewCell.swift; sourceTree = "<group>"; };
+		E7D44B2C29DDBB2C00FFBB1D /* GeocoderAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeocoderAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +91,7 @@
 		E72420F729B65431006BD28E /* weatherApp */ = {
 			isa = PBXGroup;
 			children = (
+				E7C7329729DB341500450BD4 /* LocationSelector */,
 				E724214629CB4A51006BD28E /* Constraints.swift */,
 				E72420FC29B65431006BD28E /* ViewController.swift */,
 				E753931129D3468900EBEA69 /* VCViews.swift */,
@@ -96,6 +107,18 @@
 				E724210629B65433006BD28E /* Info.plist */,
 			);
 			path = weatherApp;
+			sourceTree = "<group>";
+		};
+		E7C7329729DB341500450BD4 /* LocationSelector */ = {
+			isa = PBXGroup;
+			children = (
+				E7D44B2A29DD86A600FFBB1D /* LocationTableViewCell.swift */,
+				E7C7329529DB336200450BD4 /* LocationSelectorVC.swift */,
+				E7C732A229DB378300450BD4 /* LocationSelectorConstraints.swift */,
+				E7C732A429DB379900450BD4 /* LocationSelectorViews.swift */,
+				E7D44B2C29DDBB2C00FFBB1D /* GeocoderAPI.swift */,
+			);
+			path = LocationSelector;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -173,11 +196,16 @@
 				E724212E29BE51B3006BD28E /* weatherCodes.swift in Sources */,
 				E724214729CB4A51006BD28E /* Constraints.swift in Sources */,
 				E724214529CB484A006BD28E /* WeatherAPI.swift in Sources */,
+				E7C732A529DB379900450BD4 /* LocationSelectorViews.swift in Sources */,
 				E753931029CCB7BC00EBEA69 /* Protocols.swift in Sources */,
+				E7D44B2B29DD86A600FFBB1D /* LocationTableViewCell.swift in Sources */,
+				E7C732A329DB378300450BD4 /* LocationSelectorConstraints.swift in Sources */,
 				E72420FD29B65431006BD28E /* ViewController.swift in Sources */,
 				E724214329CB3D0D006BD28E /* LocationManager.swift in Sources */,
+				E7C7329629DB336200450BD4 /* LocationSelectorVC.swift in Sources */,
 				E72420F929B65431006BD28E /* AppDelegate.swift in Sources */,
 				E72420FB29B65431006BD28E /* SceneDelegate.swift in Sources */,
+				E7D44B2D29DDBB2C00FFBB1D /* GeocoderAPI.swift in Sources */,
 				E753931229D3468900EBEA69 /* VCViews.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

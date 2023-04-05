@@ -28,7 +28,8 @@ class WeatherAPI: NSObject, URLSessionTaskDelegate {
     
 
     func makeWeatherAPIRequest(latitude: Double, longitude: Double) {
-        
+        print("makeWeatherAPIRequest")
+
         let urlString = "https://api.open-meteo.com/v1/forecast" + "?latitude=\(latitude)&longitude=\(longitude)" + "&hourly=temperature_2m&current_weather=true" + "&windspeed_unit=ms&timezone=auto"
         
         guard let url = URL(string: urlString) else { return }
@@ -38,8 +39,7 @@ class WeatherAPI: NSObject, URLSessionTaskDelegate {
             guard let data = data else { return }
             print(data)
             guard let weather = self.parseOpenMeteoAPIResponse(data: data) else { return }
-            print(weather.hourly.temperature_2m.count)
-            
+                        
             DispatchQueue.main.async {
                 
                 
