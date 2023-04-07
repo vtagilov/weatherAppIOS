@@ -6,27 +6,6 @@ import UIKit
 extension ViewController {
     
     
-    func setWeatherUI(weather: OpenMeteoResponse) {
-        print("setWeatherUI")
-        
-        views.configure(weather: weather)
-        
-        constarints.activateConstraints(mainView: &self.view, views: views)
-        
-        saveLastWeather(weather: weather)
-    }
-    
-    
-    func updateWeatherUI(weather: OpenMeteoResponse) {
-        
-        views.updateData(weather: weather)
-        
-        saveLastWeather(weather: weather)
-    }
-    
-    
-    
-    
     func saveLastWeather(weather: OpenMeteoResponse) {
         UserDefaults.standard.set(weather.current_weather.temperature, forKey: "lastWeather.currentWeather.temperature")
         UserDefaults.standard.set(weather.current_weather.weathercode, forKey: "lastWeather.currentWeather.weatherCode")

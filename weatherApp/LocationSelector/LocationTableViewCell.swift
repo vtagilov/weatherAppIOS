@@ -2,11 +2,15 @@ import UIKit
 
 class LocationTableViewCell: UITableViewCell {
     
-        let titleLabel = UILabel()
+    let titleLabel = UILabel()
     let imageLabel = UIImage()
+    var geocoder: GeocoderAPI
     
+    var delegate: GeocoderUpdateUIProtocol?
 
-    init(reuseIdentifier: String?, indexPath: IndexPath) {
+    init(reuseIdentifier: String?, indexPath: IndexPath, geocoder: GeocoderAPI) {
+        self.geocoder = geocoder
+
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
         
         
@@ -35,7 +39,7 @@ class LocationTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         if selected == true {
             print("LocationTableViewCell \(titleLabel.text ?? "") was selected")
-            
+            geocoder.makeGeocoderAPIRequest(title: titleLabel.text ?? "")
             
             
             

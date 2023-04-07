@@ -2,17 +2,11 @@ import Foundation
 import UIKit
 
 
-extension LocationSelectorVC {
-    
-    func setMainUI() {
-        
-        LocationSelectorViews().configure()
-        
-    }
-    
-}
 
 class LocationSelectorViews: NSObject, UISearchBarDelegate, UITableViewDataSource {
+    
+    var delegate: GeocoderUpdateUIProtocol?
+    
     
     var favoriteLocationsCount = 0
     var favoriteLocations = [String]()
@@ -20,13 +14,26 @@ class LocationSelectorViews: NSObject, UISearchBarDelegate, UITableViewDataSourc
     var tableView = UITableView()
     var searchBar = UISearchBar()
     
+    var geocoder: GeocoderAPI? = nil
+    
+    init(geocoder: GeocoderAPI) {
+        self.geocoder = geocoder
+    }
+    
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return favoriteLocationsCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = LocationTableViewCell(reuseIdentifier: favoriteLocations[favoriteLocationsCount - indexPath.row - 1], indexPath: indexPath)
+        let cell: LocationTableViewCell
+        if geocoder != nil {
+            cell = LocationTableViewCell(reuseIdentifier: favoriteLocations[favoriteLocationsCount - indexPath.row - 1], indexPath: indexPath, geocoder: geocoder!)
+        } else {
+            cell = LocationTableViewCell(reuseIdentifier: favoriteLocations[favoriteLocationsCount - indexPath.row - 1], indexPath: indexPath, geocoder: GeocoderAPI())
+
+        }
+        
         
         return cell
 
@@ -39,7 +46,9 @@ class LocationSelectorViews: NSObject, UISearchBarDelegate, UITableViewDataSourc
     
     func configure() {
         
+        
         readFavoriteLocations()
+        
         
         
         searchBar = {
@@ -67,15 +76,30 @@ class LocationSelectorViews: NSObject, UISearchBarDelegate, UITableViewDataSourc
     
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        print(searchBar.text ?? "")
+        
+        guard let titlePlace = searchBar.text else {
+            return
+        }
+        print(titlePlace)
+        
+        for location in favoriteLocations {
+            if location.lowercased() == titlePlace.lowercased() {
+                favoriteLocations.remove(at: favoriteLocations.firstIndex(of: location)!)
+                favoriteLocationsCount -= 1
+            }
+        }
         
         favoriteLocationsCount += 1
-        favoriteLocations.append(searchBar.text ?? "")
+        favoriteLocations.append(titlePlace)
         
         saveFavoriteLocations()
         tableView.reloadData()
         
+        searchBar.text = ""
+        
         searchBar.resignFirstResponder()
+        
+        tableView.cellForRow(at: IndexPath(row: 0, section: 0))?.setSelected(true, animated: false)
     }
     
     

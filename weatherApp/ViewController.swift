@@ -2,7 +2,7 @@ import UIKit
 import CoreLocation
 
 
-class ViewController: UIViewController, UpdateWeatherUIProtocol {
+class ViewController: UIViewController, UpdateWeatherUIProtocol, GeocoderUpdateUIProtocol {
     
     var lastUpdateTime = Date().timeIntervalSince1970
 
@@ -10,29 +10,70 @@ class ViewController: UIViewController, UpdateWeatherUIProtocol {
     
     let locationManager = LocationManager()
     let weatherAPI = WeatherAPI()
+
     let views = VCViews()
     let constarints = VCConstraints()
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = backgroundColour
         weatherAPI.delegate = self
         
+        
         setMainUI()
         setLastWeather()
+        
         
         locationManager.updateLocation()
         
         NotificationCenter.default.addObserver(self, selector: #selector(avaliableLocation), name: NSNotification.Name("avaliableLocation"), object: nil)
+ 
         
-        
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(newLocation(_:)), name: NSNotification.Name("newLocation"), object: nil)
+
     }
     
+
     
     
     @objc func avaliableLocation() {
         weatherAPI.makeWeatherAPIRequest(latitude: locationManager.location!.coordinate.latitude, longitude: locationManager.location!.coordinate.longitude)
+        
+    }
+    
+    @objc func newLocation(_ notification: Notification) {
+        if let userInfo = notification.userInfo {
+            let lat = userInfo["lat"] as? Double
+            let lon = userInfo["lon"] as? Double
+            let displayName = userInfo["display_name"] as? String
+            if lat != nil && lon != nil {
+                weatherAPI.makeWeatherAPIRequest(latitude: lat!, longitude: lon!)
+                
+                if displayName != nil {
+                    var newTitle = ""
+                    
+                    for char in displayName! {
+                        if char == "," {
+                            break
+                        }
+                        newTitle.append(char)
+                    }
+                    print(newTitle)
+                    self.title = newTitle
+                    
+                }
+                
+                
+                
+                
+                
+                
+            }
+            
+        }
+            
+            
+        
         
         
     }
@@ -79,6 +120,8 @@ extension ViewController {
     //MARK: ButtonsTargets
     
     @objc func selectLocationButtonFunc(_ sender: UIButton) {
+        
+
         
         navigationController?.viewControllers.append(LocationSelectorVC())
     }
