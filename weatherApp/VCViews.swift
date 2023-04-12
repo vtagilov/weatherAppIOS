@@ -7,6 +7,9 @@ extension ViewController {
     
     
     func saveLastWeather(weather: OpenMeteoResponse) {
+        
+        UserDefaults.standard.set(self.title, forKey: "lastWeather.title")
+
         UserDefaults.standard.set(weather.current_weather.temperature, forKey: "lastWeather.currentWeather.temperature")
         UserDefaults.standard.set(weather.current_weather.weathercode, forKey: "lastWeather.currentWeather.weatherCode")
         UserDefaults.standard.set(weather.current_weather.windspeed, forKey: "lastWeather.currentWeather.windSpeed")
@@ -26,6 +29,9 @@ extension ViewController {
     
     
     func readLastWeather() -> OpenMeteoResponse {
+        
+        self.title = UserDefaults.standard.string(forKey: "lastWeather.title")
+        
         
         let currentWeather = Weather(temperature: UserDefaults.standard.double(forKey: "lastWeather.currentWeather.temperature"),
             windspeed: UserDefaults.standard.double(forKey: "lastWeather.currentWeather.windSpeed"),
@@ -217,6 +223,7 @@ class VCViews {
     
     
     func updateData(weather: OpenMeteoResponse) {
+
         temperatureLabel.text = String(weather.current_weather.temperature) + "°C"
         
         if temperatureLabel.text!.first != "-" {
@@ -234,7 +241,28 @@ class VCViews {
         
         weatherDescriptionLabel.text = weatherCodes[weather.current_weather.weathercode] ?? ""
         
+        var c = 0
         
+        for i in (1 ..< weather.hourly.time.count - 1) {
+            
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm"
+            
+            guard c != 23 else { break }
+            
+            var timeString = weather.hourly.time[i]
+            
+            guard let date = formatter.date(from: timeString) else { return }
+            
+            if date.timeIntervalSince1970 < Date().timeIntervalSince1970 { continue }
+            
+            formatter.dateFormat = "HH:mm"
+            timeString = formatter.string(from: date)
+            
+            weatherTimeLabels[c].text = timeString + "\n\n" + String(weather.hourly.temperature_2m[i]) + "°C"
+                        
+            c += 1
+        }
         
     }
     

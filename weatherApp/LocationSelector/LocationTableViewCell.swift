@@ -8,6 +8,7 @@ class LocationTableViewCell: UITableViewCell {
     
     var delegate: GeocoderUpdateUIProtocol?
 
+    
     init(reuseIdentifier: String?, indexPath: IndexPath, geocoder: GeocoderAPI) {
         self.geocoder = geocoder
 
@@ -30,6 +31,7 @@ class LocationTableViewCell: UITableViewCell {
         
     }
     
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -38,12 +40,7 @@ class LocationTableViewCell: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         if selected == true {
-            print("LocationTableViewCell \(titleLabel.text ?? "") was selected")
             geocoder.makeGeocoderAPIRequest(title: titleLabel.text ?? "")
-            
-            
-            
-
         }
         
     }

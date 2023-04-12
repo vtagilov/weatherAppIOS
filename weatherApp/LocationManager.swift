@@ -20,7 +20,9 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     
     
     func updateLocation() {
+       
         locationManager.startUpdatingLocation()
+        
     }
     
     
@@ -28,12 +30,11 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     // MARK: - CLLocationManagerDelegate
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+                
         if let location = locations.last {
             
             self.location = location
-            
-            print("Location updated: \(location)")
-            
+                        
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "avaliableLocation"), object: self)
             
             

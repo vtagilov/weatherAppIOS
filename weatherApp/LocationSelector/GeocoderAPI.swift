@@ -15,13 +15,17 @@ class GeocoderAPI: NSObject, URLSessionTaskDelegate {
     
     var delegate: GeocoderUpdateUIProtocol?
     
+    var title: String?
+    
     func makeGeocoderAPIRequest(title: String) {
-        
-        print("makeGeocoderAPIRequest")
+        self.title = title
+        print("makeGeocoderAPIRequest - \(title)")
 
         let urlString = "https://nominatim.openstreetmap.org/search/\(title)?format=json"
         
-        guard let url = URL(string: urlString) else { print("url != url"); return }
+        guard let encodedString = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed) else { print("encodedString = urlString"); return }
+        
+        guard let url = URL(string: encodedString) else { print("url != url"); return }
         
         let task = URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
             
@@ -52,12 +56,12 @@ class GeocoderAPI: NSObject, URLSessionTaskDelegate {
             let response = try decoder.decode([Adress].self, from: data)
             if response.count == 0 {
                 DispatchQueue.main.async {
-                    NotificationCenter.default.post(name: Notification.Name("setAlert.WrongPlace"), object: nil)
+
+                    NotificationCenter.default.post(name: Notification.Name("setAlert.WrongPlace"), object: nil, userInfo: ["title": self.title!])
+                    
                 }
-                
                 return nil
             }
-            print(response[0])
             return response[0]
         } catch {
             print("Error parsing Adress API response: \(error.localizedDescription)")

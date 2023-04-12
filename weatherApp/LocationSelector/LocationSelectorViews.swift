@@ -3,10 +3,10 @@ import UIKit
 
 
 
-class LocationSelectorViews: NSObject, UISearchBarDelegate, UITableViewDataSource {
+class LocationSelectorViews: NSObject, UISearchBarDelegate {
     
-    var delegate: GeocoderUpdateUIProtocol?
-    
+//    var delegate: GeocoderUpdateUIProtocol?
+    var geocoder: GeocoderAPI? = nil
     
     var favoriteLocationsCount = 0
     var favoriteLocations = [String]()
@@ -14,42 +14,18 @@ class LocationSelectorViews: NSObject, UISearchBarDelegate, UITableViewDataSourc
     var tableView = UITableView()
     var searchBar = UISearchBar()
     
-    var geocoder: GeocoderAPI? = nil
+    var locationButton = UIButton()
+    
     
     init(geocoder: GeocoderAPI) {
         self.geocoder = geocoder
     }
     
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return favoriteLocationsCount
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: LocationTableViewCell
-        if geocoder != nil {
-            cell = LocationTableViewCell(reuseIdentifier: favoriteLocations[favoriteLocationsCount - indexPath.row - 1], indexPath: indexPath, geocoder: geocoder!)
-        } else {
-            cell = LocationTableViewCell(reuseIdentifier: favoriteLocations[favoriteLocationsCount - indexPath.row - 1], indexPath: indexPath, geocoder: GeocoderAPI())
-
-        }
-        
-        
-        return cell
-
-    }
-    
-    
-    func updateLocations() {
-        
-    }
     
     func configure() {
         
-        
         readFavoriteLocations()
-        
-        
         
         searchBar = {
             let searchBar = UISearchBar()
@@ -67,20 +43,68 @@ class LocationSelectorViews: NSObject, UISearchBarDelegate, UITableViewDataSourc
             tableView.translatesAutoresizingMaskIntoConstraints = false
             tableView.dataSource = self
             
-            
             return tableView
         }()
         
         
+        locationButton = {
+           let locationButton = UIButton()
+            
+            locationButton.setImage(UIImage(systemName: "location.fill"), for: .normal)
+            locationButton.translatesAutoresizingMaskIntoConstraints = false
+            locationButton.addTarget(self, action: #selector(myLocationButtonFunc), for: .touchUpInside)
+            return locationButton
+        }()
+        
     }
     
+}
+
+
+extension LocationSelectorViews {
+    
+    @objc func myLocationButtonFunc() {
+        print("myLocationButtonFunc")
+        
+        NotificationCenter.default.post(name: Notification.Name("updateWeatherLocationNotification"), object: nil)
+        
+        
+    }
+    
+}
+
+
+
+//  MARK: UITableViewDataSource
+extension LocationSelectorViews: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return favoriteLocationsCount
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell: LocationTableViewCell
+        if geocoder != nil {
+            cell = LocationTableViewCell(reuseIdentifier: favoriteLocations[favoriteLocationsCount - indexPath.row - 1], indexPath: indexPath, geocoder: geocoder!)
+        } else {
+            cell = LocationTableViewCell(reuseIdentifier: favoriteLocations[favoriteLocationsCount - indexPath.row - 1], indexPath: indexPath, geocoder: GeocoderAPI())
+        }
+        
+        return cell
+    }
+    
+}
+
+
+
+//  MARK: UISearchBarDelegate
+extension LocationSelectorViews {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
         guard let titlePlace = searchBar.text else {
             return
         }
-        print(titlePlace)
         
         for location in favoriteLocations {
             if location.lowercased() == titlePlace.lowercased() {
@@ -101,13 +125,16 @@ class LocationSelectorViews: NSObject, UISearchBarDelegate, UITableViewDataSourc
         
         tableView.cellForRow(at: IndexPath(row: 0, section: 0))?.setSelected(true, animated: false)
     }
-    
-    
+}
+
+
+
+//  MARK: Save&Read UserData
+extension LocationSelectorViews {
     
     func readFavoriteLocations() {
         let strFavoriteLocationsCount = UserDefaults.standard.string(forKey: "favoriteLocations.count") ?? "0"
         favoriteLocationsCount = Int(strFavoriteLocationsCount) ?? 0
-        
         
         for i in 0..<favoriteLocationsCount {
             favoriteLocations.append(UserDefaults.standard.string(forKey: "favoriteLocations.\(i)") ?? "")
@@ -115,7 +142,7 @@ class LocationSelectorViews: NSObject, UISearchBarDelegate, UITableViewDataSourc
 
     }
     
-    
+
     func saveFavoriteLocations() {
         
         UserDefaults.standard.set(favoriteLocationsCount, forKey: "favoriteLocations.count")
@@ -125,7 +152,5 @@ class LocationSelectorViews: NSObject, UISearchBarDelegate, UITableViewDataSourc
         }
         
     }
-    
-    
     
 }

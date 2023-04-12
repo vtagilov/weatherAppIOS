@@ -26,7 +26,7 @@ class WeatherAPI: NSObject, URLSessionTaskDelegate {
     
     var delegate: UpdateWeatherUIProtocol?
     
-
+    
     func makeWeatherAPIRequest(latitude: Double, longitude: Double) {
         print("makeWeatherAPIRequest")
 
@@ -42,16 +42,12 @@ class WeatherAPI: NSObject, URLSessionTaskDelegate {
                         
             DispatchQueue.main.async {
                 
-                
-                
                 if self.isPlaced == false {
                     self.delegate?.setWeatherUI(weather: weather)
-                    
                     self.isPlaced = true
                 } else {
                     self.delegate?.updateWeatherUI(weather: weather)
                 }
-                
                 
             }
             

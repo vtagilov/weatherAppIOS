@@ -14,7 +14,7 @@ protocol GeocoderUpdateUIProtocol {
 
 }
 
-extension ViewController {
+extension ViewController: UpdateWeatherUIProtocol {
     
     func setWeatherUI(weather: OpenMeteoResponse) {
         print("setWeatherUI")
@@ -38,15 +38,3 @@ extension ViewController {
     
 }
 
-
-extension ViewController {
-    
-    func updateWeatherUIWithGeocoder(place: Adress) {
-        print("updateWeatherUI(place)")
-        print(place.lat, place.lon)
-        
-        navigationController?.viewControllers.removeLast()
-        weatherAPI.makeWeatherAPIRequest(latitude: Double(place.lat) ?? 0, longitude: Double(place.lon) ?? 0)
-
-    }
-}
