@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "clouds-in-the-blue-sky-on-sunny-day-nature-scenery-with-a-good-weather-e1607254003215-535x1024 1.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "clouds-in-the-blue-sky-on-sunny-day-nature-scenery-with-a-good-weather-e1607254003215-535x1024.jpg",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "clouds-in-the-blue-sky-on-sunny-day-nature-scenery-with-a-good-weather-e1607254003215-535x1024 2.jpg",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

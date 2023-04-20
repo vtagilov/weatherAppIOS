@@ -31,6 +31,7 @@ class ViewController: UIViewController {
         weatherAPI.delegate = self
         
         setMainUI()
+        
         setLastWeather()
         
         locationManager.updateLocation()

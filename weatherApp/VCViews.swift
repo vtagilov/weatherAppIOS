@@ -9,7 +9,7 @@ extension ViewController {
     func saveLastWeather(weather: OpenMeteoResponse) {
         
         UserDefaults.standard.set(self.title, forKey: "lastWeather.title")
-
+        
         UserDefaults.standard.set(weather.current_weather.temperature, forKey: "lastWeather.currentWeather.temperature")
         UserDefaults.standard.set(weather.current_weather.weathercode, forKey: "lastWeather.currentWeather.weatherCode")
         UserDefaults.standard.set(weather.current_weather.windspeed, forKey: "lastWeather.currentWeather.windSpeed")
@@ -34,8 +34,8 @@ extension ViewController {
         
         
         let currentWeather = Weather(temperature: UserDefaults.standard.double(forKey: "lastWeather.currentWeather.temperature"),
-            windspeed: UserDefaults.standard.double(forKey: "lastWeather.currentWeather.windSpeed"),
-            weathercode: UserDefaults.standard.integer(forKey: "lastWeather.currentWeather.weatherCode"))
+                                     windspeed: UserDefaults.standard.double(forKey: "lastWeather.currentWeather.windSpeed"),
+                                     weathercode: UserDefaults.standard.integer(forKey: "lastWeather.currentWeather.weatherCode"))
         
         
         var time = [String]()
@@ -89,7 +89,7 @@ class VCViews {
     
     
     
-
+    
     func configure(weather: OpenMeteoResponse) {
         
         
@@ -183,12 +183,35 @@ class VCViews {
         
         
         
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm"
+        let lastUpdateTimeString = weather.hourly.time.last
+        guard let date = formatter.date(from: lastUpdateTimeString!) else { return }
+        if date.timeIntervalSince1970 < Date().timeIntervalSince1970 {
+            
+            for _ in 0...24 {
+                let oneWeatherlabel = UILabel()
+                
+                oneWeatherlabel.text = "outdated data"
+                oneWeatherlabel.numberOfLines = 4
+                oneWeatherlabel.font = UIFont.systemFont(ofSize: 15)
+                oneWeatherlabel.backgroundColor = backgroundColour
+                oneWeatherlabel.textAlignment = .center
+                
+                oneWeatherlabel.translatesAutoresizingMaskIntoConstraints = false
+                oneWeatherlabel.adjustsFontForContentSizeCategory = true
+                oneWeatherlabel.adjustsFontSizeToFitWidth = true
+                
+                self.weatherTimeLabels.append(oneWeatherlabel)
+            }
+        }
+        
         for i in (1 ..< weather.hourly.time.count - 1) {
             
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm"
             
-            guard weatherTimeLabels.count != 23 else { break }
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm"
+            guard self.weatherTimeLabels.count != 23 else { break }
             
             var timeString = weather.hourly.time[i]
             
@@ -207,23 +230,28 @@ class VCViews {
             oneWeatherlabel.font = UIFont.systemFont(ofSize: 15)
             oneWeatherlabel.backgroundColor = backgroundColour
             oneWeatherlabel.textAlignment = .center
+            oneWeatherlabel.layer.cornerRadius = 5.0
+            oneWeatherlabel.clipsToBounds = true
+
             
             oneWeatherlabel.translatesAutoresizingMaskIntoConstraints = false
             oneWeatherlabel.adjustsFontForContentSizeCategory = true
             oneWeatherlabel.adjustsFontSizeToFitWidth = true
-
+            
             self.weatherTimeLabels.append(oneWeatherlabel)
+            
+            
             
         }
         
-
+        
     }
     
     
     
     
     func updateData(weather: OpenMeteoResponse) {
-
+        
         temperatureLabel.text = String(weather.current_weather.temperature) + "°C"
         
         if temperatureLabel.text!.first != "-" {
@@ -240,27 +268,23 @@ class VCViews {
         currentTimeLabel.text = "на " + timeString
         
         weatherDescriptionLabel.text = weatherCodes[weather.current_weather.weathercode] ?? ""
-        
+                
         var c = 0
         
         for i in (1 ..< weather.hourly.time.count - 1) {
-            
-            let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm"
             
             guard c != 23 else { break }
             
             var timeString = weather.hourly.time[i]
-            
-            guard let date = formatter.date(from: timeString) else { return }
+
+            guard let date = formatter.date(from: timeString) else { print(timeString, "error"); return }
             
             if date.timeIntervalSince1970 < Date().timeIntervalSince1970 { continue }
             
             formatter.dateFormat = "HH:mm"
             timeString = formatter.string(from: date)
-            
             weatherTimeLabels[c].text = timeString + "\n\n" + String(weather.hourly.temperature_2m[i]) + "°C"
-                        
             c += 1
         }
         

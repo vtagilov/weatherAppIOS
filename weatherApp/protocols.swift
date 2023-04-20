@@ -28,6 +28,7 @@ extension ViewController: UpdateWeatherUIProtocol {
     
     
     func updateWeatherUI(weather: OpenMeteoResponse) {
+        print("updateWeatherUI")
         
         views.updateData(weather: weather)
         
