@@ -86,11 +86,18 @@ class VCViews {
     
     static let scrollViewItemLenght: CGFloat = 75
     
-    
+    var weatherImage = UIImage()
     
     
     
     func configure(weather: OpenMeteoResponse) {
+        
+        weatherImage = {
+            let image = UIImage()
+            
+            
+            return image
+        }()
         
         
         temperatureLabel = {

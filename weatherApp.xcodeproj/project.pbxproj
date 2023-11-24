@@ -72,6 +72,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E71D0C5529F1A3A500F4EF56 /* MainVC */ = {
+			isa = PBXGroup;
+			children = (
+				E72420FC29B65431006BD28E /* ViewController.swift */,
+				E753931129D3468900EBEA69 /* VCViews.swift */,
+				E724214629CB4A51006BD28E /* Constraints.swift */,
+				E724214429CB484A006BD28E /* WeatherAPI.swift */,
+				E724214229CB3D0D006BD28E /* LocationManager.swift */,
+			);
+			path = MainVC;
+			sourceTree = "<group>";
+		};
 		E72420EC29B65431006BD28E = {
 			isa = PBXGroup;
 			children = (
@@ -92,11 +104,7 @@
 			isa = PBXGroup;
 			children = (
 				E7C7329729DB341500450BD4 /* LocationSelector */,
-				E724214629CB4A51006BD28E /* Constraints.swift */,
-				E72420FC29B65431006BD28E /* ViewController.swift */,
-				E753931129D3468900EBEA69 /* VCViews.swift */,
-				E724214229CB3D0D006BD28E /* LocationManager.swift */,
-				E724214429CB484A006BD28E /* WeatherAPI.swift */,
+				E71D0C5529F1A3A500F4EF56 /* MainVC */,
 				E753930F29CCB7BC00EBEA69 /* Protocols.swift */,
 				E72420FE29B65431006BD28E /* Main.storyboard */,
 				E724212D29BE51B3006BD28E /* weatherCodes.swift */,

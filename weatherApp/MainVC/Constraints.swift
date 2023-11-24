@@ -20,6 +20,8 @@ class VCConstraints {
     
     func activateConstraints(mainView: inout UIView, views: VCViews) {
         
+        
+        
         mainView.addSubview(views.temperatureLabel)
         temperatureLabelConstraints = [
             views.temperatureLabel.topAnchor.constraint(equalTo: mainView.safeAreaLayoutGuide.topAnchor, constant: 50),
